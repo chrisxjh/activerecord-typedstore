@@ -83,6 +83,7 @@ module ActiveRecord::TypedStore
     end
 
     def changes
+      byebug
       changes = super
       self.class.store_accessors.each do |attr|
         if send("#{attr}_changed?")
