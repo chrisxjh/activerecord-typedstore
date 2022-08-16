@@ -74,7 +74,7 @@ module ActiveRecord::TypedStore
     def saved_changes
       changes = super
       self.class.store_accessors.each do |attr|
-        if send("#{attr}_changed?")
+        if send("saved_change_to_#{attr}?")
           changes[attr] = [send("#{attr}_was"), send(attr)]
         end
       end
