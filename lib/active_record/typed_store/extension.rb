@@ -71,6 +71,17 @@ module ActiveRecord::TypedStore
       end
     end
 
+    def saved_changes
+      byebug
+      changes = super
+      self.class.store_accessors.each do |attr|
+        if send("#{attr}_changed?")
+          changes[attr] = [send("#{attr}_was"), send(attr)]
+        end
+      end
+      changes
+    end
+
     def changes
       changes = super
       self.class.store_accessors.each do |attr|
